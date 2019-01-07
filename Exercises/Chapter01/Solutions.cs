@@ -24,9 +24,9 @@ namespace Exercises.Chapter1
          var small = from item in rest where item <= pivot select item;
          var large = from item in rest where pivot < item select item;
 
-         return small.ToList().QuickSort()
+         return QuickSort(small.ToList())
             .Append(pivot)
-            .Concat(large.ToList().QuickSort())
+            .Concat(QuickSort(large.ToList()))
             .ToList();
       }
 
@@ -44,7 +44,7 @@ namespace Exercises.Chapter1
       {
          var list = new List<int> {-100, 63, 30, 45, 1, 1000, -23, -67, 1, 2, 56, 75, 975, 432, -600, 193, 85, 12};
          var expected = new List<int> {-600, -100, -67, -23, 1, 1, 2, 12, 30, 45, 56, 63, 75, 85, 193, 432, 975, 1000};
-         var actual = list.QuickSort();
+         var actual = QuickSort(list);
          Assert.AreEqual(expected, actual);
       }
 
