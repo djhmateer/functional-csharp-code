@@ -9,16 +9,18 @@ namespace ConsoleApp1
     {
         static void Main()
         {
-            var input = new List<string> { "coffee beans", "BANANAS", "Dates" };
-            var output = new ListFormatter().Format(input);
-            // Method group - same as writing x => WriteLine(x)
-            output.ForEach(WriteLine);
+            Chapter2.Bmi.Run();
 
-            var b = ListFormatter2.Format(input);
-            b.ForEach(WriteLine);
+            //var input = new List<string> { "coffee beans", "BANANAS", "Dates" };
+            //var output = new ListFormatter().Format(input);
+            //// Method group - same as writing x => WriteLine(x)
+            //output.ForEach(WriteLine);
 
-            var c = ListFormatter3.Format(input);
-            c.ForEach(WriteLine);
+            //var b = ListFormatter2.Format(input);
+            //b.ForEach(WriteLine);
+
+            //var c = ListFormatter3.Format(input);
+            //c.ForEach(WriteLine);
         }
     }
     // try 3 - no shared state, so easy to parallelise

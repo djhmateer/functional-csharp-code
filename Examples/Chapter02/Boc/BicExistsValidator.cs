@@ -43,7 +43,9 @@ namespace Boc.Services.Validation
       [TestCase("ABCDEFGJ123", ExpectedResult = true)]
       [TestCase("XXXXXXXXXXX", ExpectedResult = false)]
       public bool WhenBicNotFound_ThenValidationFails(string bic)
-         => new BicExistsValidator(() => validCodes)
-            .IsValid(new MakeTransfer { Bic = bic });
+      {
+          return new BicExistsValidator(() => validCodes)
+              .IsValid(new MakeTransfer {Bic = bic});
+      }
    }
 }
