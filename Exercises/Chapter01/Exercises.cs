@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 
 namespace Exercises.Chapter1
 {
@@ -15,9 +14,20 @@ namespace Exercises.Chapter1
 
             // function assigned to a variable takes an int and returns a bool
             Func<int, bool> isPrime = IsPrime;
+
             foreach (var prime in numbers.Where(isPrime.Negate()))
+                //foreach (var prime in numbers.Where(IsPrime2.Negate()))
                 Console.WriteLine(prime);
         }
+
+        // a Field!
+        static Func<int, bool> IsPrime2 = x =>
+        {
+            for (long i = 2; i < x; i++)
+                if (x % i == 0)
+                    return false;
+            return true;
+        };
 
         // extension method on Func<t, bool>
         // returns a Func<T, bool>
