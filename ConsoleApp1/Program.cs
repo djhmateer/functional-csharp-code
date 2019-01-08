@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using static System.Console;
@@ -14,9 +13,36 @@ namespace ConsoleApp1
             var output = new ListFormatter().Format(input);
             // Method group - same as writing x => WriteLine(x)
             output.ForEach(WriteLine);
+
+            var b = ListFormatter2.Format(input);
+            b.ForEach(WriteLine);
+
+            var c = ListFormatter3.Format(input);
+            c.ForEach(WriteLine);
         }
     }
+    // try 3 - no shared state, so easy to parallelise
+    static class ListFormatter3
+    {
+        public static List<string> Format(List<string> list) =>
+            list.AsParallel()
+                .Select(StringExt.ToSentenceCase) // Method group
+                .Zip(ParallelEnumerable.Range(1, list.Count), (s, i) => $"{i}. {s}") // s is string, i is int
+                .ToList();
+    }
 
+    // try 2 - pure function as not using a mutable counter
+    static class ListFormatter2
+    {
+        // when all variables required within a method are provided as input the method can be static
+        public static List<string> Format(List<string> list) =>
+            list
+                .Select(StringExt.ToSentenceCase) // Method group
+                .Zip(Enumerable.Range(1, list.Count), (s, i) => $"{i}. {s}") // s is string, i is int
+                .ToList();
+    }
+
+    // try 1
     class ListFormatter
     {
         int counter;
@@ -28,8 +54,8 @@ namespace ConsoleApp1
         // Expression body syntax C#6
         public List<string> Format(List<string> list)
             => list
-                .Select(StringExt.ToSentenceCase)
-                .Select(PrependCounter)
+                .Select(StringExt.ToSentenceCase) // pure
+                .Select(PrependCounter) // impure as mutating global state
                 .ToList();
     }
 

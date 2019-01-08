@@ -1,7 +1,9 @@
 ﻿namespace Boc.Services
 {
-   public interface IValidator<T>
-   {
-      bool IsValid(T t);
-   }
+    // type parameter could be declared as covariant or contravariant
+    // 1 class for each validation and a simple interface
+    public interface IValidator<T> // in forces contravariant
+    {
+        bool IsValid(T t);
+    }
 }
