@@ -10,8 +10,10 @@ namespace ConsoleApp1
     {
         static void Main()
         {
-            WriteLine("Hello World!");
-            ListFormatter._main();
+            var input = new List<string> { "coffee beans", "BANANAS", "Dates" };
+            var output = new ListFormatter().Format(input);
+            // Method group - same as writing x => WriteLine(x)
+            output.ForEach(WriteLine);
         }
     }
 
@@ -23,23 +25,12 @@ namespace ConsoleApp1
         string PrependCounter(string s) => $"{++counter}. {s}";
 
         // pure and impure functions applied similarly
+        // Expression body syntax C#6
         public List<string> Format(List<string> list)
             => list
                 .Select(StringExt.ToSentenceCase)
                 .Select(PrependCounter)
                 .ToList();
-
-        //internal static void _main()
-        public static void _main()
-        {
-            var shoppingList = new List<string> { "coffee beans", "BANANAS", "Dates" };
-
-            new ListFormatter()
-                .Format(shoppingList)
-                .ForEach(WriteLine);
-
-            //Read();
-        }
     }
 
     public static class StringExt
