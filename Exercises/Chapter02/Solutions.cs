@@ -24,7 +24,7 @@ namespace Exercises.Chapter2.Solutions
             Run(Read, Write);
         }
 
-        // HOF returns void, takes a function which takes a string a returns a double, function that takes a BmiRange and returns void 
+        // HOF returns void, read is a function which takes a string a returns a double, write function that takes a BmiRange and returns void 
         internal static void Run(Func<string, double> read, Action<BmiRange> write)
         {
             // input
@@ -39,7 +39,7 @@ namespace Exercises.Chapter2.Solutions
             write(bmiRange);
         }
         
-        // Isolated the pure computational functions below from I/O
+        // Isolated the pure computational functions below from impure I/O
         internal static double CalculateBmi(double height, double weight)
            => Round(weight / Pow(height, 2), 2);
 
@@ -75,6 +75,7 @@ namespace Exercises.Chapter2.Solutions
 
         // testing Run
         // this is good as testing the actual output of the program (and not just units)
+        // just not testing the impure functions (faking them)
         [TestCase(1.80, 77, ExpectedResult = BmiRange.Healthy)]
         [TestCase(1.60, 77, ExpectedResult = BmiRange.Overweight)]
         public BmiRange ReadBmi(double height, double weight)
