@@ -12,7 +12,8 @@ namespace ConsoleApp1
             //Chapter2.ListFormatter.ListFomatterRun.Run();
             // see Exercises for example I've worked through
             //Chapter2.Bmi.Bmi.Run();
-            Chapter2.Prime.Prime.Run();
+            //Chapter2.Prime.Prime.Run();
+            Chapter3.Age.AgeThing.Run();
         }
     }
 }
