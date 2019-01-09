@@ -5,17 +5,6 @@ using static System.Console;
 
 namespace ConsoleApp1.Chapter2.Prime
 {
-    // 1. Write a console app that calculates a user's Body-Mass Index:
-    //   - prompt the user for a number
-    //   - calculate if it is prime
-    //   - output to the console
-
-    // 2. Structure your code so that structure it so that pure and impure parts are separate
-    // 3. Unit test the pure parts
-    // 4. Unit test the impure parts using the HOF-based approach
-
-    // see the Exercises project for a fully commented version
-
     static class Prime
     {
         public static void Run()
@@ -42,6 +31,7 @@ namespace ConsoleApp1.Chapter2.Prime
             write(isNumberPrime);
         }
 
+        // pure function
         internal static bool IsPrime(int number)
         {
             for (long i = 2; i < number; i++)
@@ -54,7 +44,7 @@ namespace ConsoleApp1.Chapter2.Prime
         // I/O always considered a side effect (as what happens in the outside world will effect the int returned)
         private static int Read()
         {
-            WriteLine($"Please enter an int");
+            WriteLine("Please enter an int");
             return int.Parse(ReadLine());
         }
 
