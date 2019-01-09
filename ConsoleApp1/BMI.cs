@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using static System.Math;
 
-namespace ConsoleApp1.Chapter2
+namespace ConsoleApp1.Chapter2.Bmi
 {
     // 1. Write a console app that calculates a user's Body-Mass Index:
     //   - prompt the user for her height in metres and weight in kg
@@ -11,6 +11,8 @@ namespace ConsoleApp1.Chapter2
     // 2. Structure your code so that structure it so that pure and impure parts are separate
     // 3. Unit test the pure parts
     // 4. Unit test the impure parts using the HOF-based approach
+
+    // see the Exercises project for a fully commented version
 
     static class Bmi
     {

@@ -20,6 +20,7 @@ namespace Exercises.Chapter2.Solutions
     {
         public static void Run()
         {
+            // injecting functions as dependencies (so we are able to test the Run method)
             // passing impure functions into the Run HOF
             Run(Read, Write);
         }
@@ -29,13 +30,16 @@ namespace Exercises.Chapter2.Solutions
         {
             // input
             // multiple declarators C#3
+            // using the injected function to do a Console.Read and Parse to do a double
             double weight = read("weight")
                  , height = read("height");
 
             // computation
+            // static function and extension method on double easy to test as both pure functions
             var bmiRange = CalculateBmi(height, weight).ToBmiRange();
 
             // output
+            // using injected function to Console.WriteLine
             write(bmiRange);
         }
         
@@ -48,7 +52,7 @@ namespace Exercises.Chapter2.Solutions
               : 25 <= bmi ? BmiRange.Overweight
               : BmiRange.Healthy;
 
-        // Impure functions below (will not test)
+        // Impure function (will not test)
         // I/O always considered a side effect (as what happens in the outside world will effect the double returned)
         private static double Read(string field)
         {
@@ -56,6 +60,7 @@ namespace Exercises.Chapter2.Solutions
             return double.Parse(ReadLine());
         }
 
+        // Impure function (will not test)
         private static void Write(BmiRange bmiRange)
            => WriteLine($"Based on your BMI, you are {bmiRange}");
     }
