@@ -3,21 +3,32 @@ using NUnit.Framework;
 
 namespace Exercises.Chapter2.Solutions
 {
+    // 1. Write a console app that calculates a user's Body-Mass Index:
+    //   - prompt the user for her height in metres and weight in kg
+    //   - calculate the BMI as weight/height^2
+    //   - output a message: underweight(bmi<18.5), overweight(bmi>=25) or healthy weight
+    // 2. Structure your code so that structure it so that pure and impure parts are separate
+    // 3. Unit test the pure parts
+    // 4. Unit test the impure parts using the HOF-based approach
+
     using static Console;
     using static Math;
 
     public enum BmiRange { Underweight, Healthy, Overweight }
 
-    static class Bmi
+    public static class Bmi
     {
         public static void Run()
         {
+            // passing impure functions into the Run HOF
             Run(Read, Write);
         }
 
+        // HOF returns void, takes a function which takes a string a returns a double, function that takes a BmiRange and returns void 
         internal static void Run(Func<string, double> read, Action<BmiRange> write)
         {
             // input
+            // multiple declarators C#3
             double weight = read("weight")
                  , height = read("height");
 
@@ -27,7 +38,8 @@ namespace Exercises.Chapter2.Solutions
             // output
             write(bmiRange);
         }
-
+        
+        // Isolated the pure computational functions below from I/O
         internal static double CalculateBmi(double height, double weight)
            => Round(weight / Pow(height, 2), 2);
 
@@ -36,6 +48,8 @@ namespace Exercises.Chapter2.Solutions
               : 25 <= bmi ? BmiRange.Overweight
               : BmiRange.Healthy;
 
+        // Impure functions below (will not test)
+        // I/O always considered a side effect (as what happens in the outside world will effect the double returned)
         private static double Read(string field)
         {
             WriteLine($"Please enter your {field}");
@@ -48,7 +62,7 @@ namespace Exercises.Chapter2.Solutions
 
     public class BmiTests
     {
-        // testing CalculateBmi
+        // Easy to test the pure computational functions!
         [TestCase(1.80, 77, ExpectedResult = 23.77)]
         [TestCase(1.60, 77, ExpectedResult = 30.08)]
         public double CalculateBmi(double height, double weight)
@@ -59,13 +73,19 @@ namespace Exercises.Chapter2.Solutions
         [TestCase(30.08, ExpectedResult = BmiRange.Overweight)]
         public BmiRange ToBmiRange(double bmi) => bmi.ToBmiRange();
 
-        // testing ReadBmi!
+        // testing Run
+        // this is good as testing the actual output of the program (and not just units)
         [TestCase(1.80, 77, ExpectedResult = BmiRange.Healthy)]
         [TestCase(1.60, 77, ExpectedResult = BmiRange.Overweight)]
         public BmiRange ReadBmi(double height, double weight)
         {
             var result = default(BmiRange);
+            // defining two pure fake functions to pass into the HOF
+            // takes a string as input (the field name) and returns a double
+            // we don't need to double.Parse as we control the test data
             Func<string, double> read = s => s == "height" ? height : weight;
+            // takes a BmiRange and returns void 
+            // uses a local variable (result) to hold the value of BmiRange passed into the function, which the test returns
             Action<BmiRange> write = r => result = r;
 
             Bmi.Run(read, write);
