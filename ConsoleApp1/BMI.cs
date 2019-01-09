@@ -33,14 +33,14 @@ namespace ConsoleApp1.Chapter2.Bmi
         }
     }
 
-    public class Tests
-    {
-        [TestCase(1.80, 77, ExpectedResult = 23.77)]
-        [TestCase(1.60, 77, ExpectedResult = 30.08)]
-        public double GetBMI_Simple(double height, double weight)
-        {
-            var result = Bmi.GetBMI(height, weight);
-            return result;
-        }
-    }
+    //public class Tests
+    //{
+    //    [TestCase(1.80, 77, ExpectedResult = 23.77)]
+    //    [TestCase(1.60, 77, ExpectedResult = 30.08)]
+    //    public double GetBMI_Simple(double height, double weight)
+    //    {
+    //        var result = Bmi.GetBMI(height, weight);
+    //        return result;
+    //    }
+    //}
 }

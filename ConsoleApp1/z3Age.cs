@@ -43,7 +43,7 @@ namespace ConsoleApp1.Chapter3.Age
 
     public enum Risk { Low, Medium, High }
 
-    public class PrimeTests
+    public class AgeTests
     {
         //static Age x20 = new Age(20);
         //[TestCase(x20, ExpectedResult = Risk.Low)]
@@ -58,6 +58,12 @@ namespace ConsoleApp1.Chapter3.Age
         {
             var result = AgeThing.CalculateRiskProfile(new Age(20));
             Assert.AreEqual(Risk.Low, result);
+        }
+        [Test]
+        public void CalculateRiskProfile_SimpleMedium()
+        {
+            var result = AgeThing.CalculateRiskProfile(new Age(60));
+            Assert.AreEqual(Risk.Medium, result);
         }
     }
 }
