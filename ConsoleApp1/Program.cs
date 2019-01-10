@@ -15,8 +15,10 @@ namespace ConsoleApp1
             //Chapter2.Prime.Prime.Run();
             //Chapter3.Age.AgeThing.Run();
             //Chapter3.Instrumentation.InstrumentationThing.Run();
-            Chapter3.Options.OptionThing.Run();
+            //Chapter3.Options.OptionThing.Run();
             //Chapter3.OptionsAge.AgeThing.Run();
+            Chapter3.ZExamples.ExamplesThing.Run();
+
         }
     }
 }
