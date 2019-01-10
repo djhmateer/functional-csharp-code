@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LaYumba.Functional\LaYumba.Functional.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="file.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
