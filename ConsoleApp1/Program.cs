@@ -13,7 +13,8 @@ namespace ConsoleApp1
             // see Exercises for example I've worked through
             //Chapter2.Bmi.Bmi.Run();
             //Chapter2.Prime.Prime.Run();
-            Chapter3.Age.AgeThing.Run();
+            //Chapter3.Age.AgeThing.Run();
+            Chapter3.Instrumentation.Instrumentation.InstrumentationThing.Run();
         }
     }
 }

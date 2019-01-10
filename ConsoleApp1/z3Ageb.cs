@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace ConsoleApp1.Chapter3.Ageb
 {
-    // data object / custom type that can only represent a valid value for an age
+    // data object / custom type / anemic objects that can only represent a valid value for an age
     // structs are value types - he uses a struct here
     // classes are reference types
     public class Age
@@ -12,7 +12,8 @@ namespace ConsoleApp1.Chapter3.Ageb
         public Age(int value)
         {
             if (!IsValid(value))
-                throw new ArgumentException($"{value} is not a valid age");
+                // Age can only be instantiated with a valid value
+                throw new ArgumentException($"{value} is not a valid age"); // see below for Option improvement
 
             Value = value;
         }
@@ -41,7 +42,7 @@ namespace ConsoleApp1.Chapter3.Ageb
         }
 
         // honest function - it honours its signature ie you will always end up with a Risk
-        // it will never blow up as Age has to be valid
+        // it will never blow up with a runtime error as Age has to be valid
         public static Risk CalculateRiskProfile(Age age)
             => (age < 60) ? Risk.Low : Risk.Medium;
 
