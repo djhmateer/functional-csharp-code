@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using LaYumba.Functional;
-using LaYumba.Functional.Option;
-using NUnit.Framework;
 //using Enum = System.Enum;
 using Enum = LaYumba.Functional.Enum;
 
