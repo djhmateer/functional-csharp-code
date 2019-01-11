@@ -30,17 +30,24 @@ namespace ConsoleApp1.Chapter3.ZExamples
             var c = new List<int> { 1 }.Lookup(isOdd); // => Some(1)
 
             // 3 email thing
-            //var d = new Email();
+            // Email is a type using a smart constructor to return a new Email(string) if the string is valid
+            Option<Email> email = Email.Create("davemateer@gmail.com");
 
-            // email is a type!!!
-            // ah ha - no behaviour
-            var d = Email.Create("dave");
+            var x = Thing.Create();
+        }
+
+        public class Thing
+        {
+            public static Thing Create()
+            {
+                return new Thing();
+            }
         }
 
         // Lookup : IEnumerable<T> -> (T -> bool) -> Option<T>
         public static Option<T> Lookup<T>(this IEnumerable<T> ts, Func<T, bool> pred)
         {
-            foreach (T t in ts) 
+            foreach (T t in ts)
                 // return the first element that matches the predicate
                 if (pred(t)) return Some(t);
             return None;
@@ -67,6 +74,7 @@ namespace ConsoleApp1.Chapter3.ZExamples
                 ? Some(new Email(s))
                 : None;
 
+        // implicit conversion to string
         public static implicit operator string(Email e)
             => e.Value;
     }
