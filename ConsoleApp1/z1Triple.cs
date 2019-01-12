@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using NUnit.Framework;
 using static System.Math;
 using static System.Console;
@@ -18,7 +19,6 @@ namespace ConsoleApp1.Chapter1.Triple
             // 1. the variable triple is assigned to a lambda expression 
             Func<int, int> triple = x => x * 3;
             var a = triple(4); // 12
-
 
             // passing the function around creating more concise code
             // and higher level of abstraction
