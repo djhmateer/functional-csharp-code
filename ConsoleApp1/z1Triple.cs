@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using NUnit.Framework;
-using static System.Math;
-using static System.Console;
 
 namespace ConsoleApp1.Chapter1.Triple
 {
@@ -16,35 +12,32 @@ namespace ConsoleApp1.Chapter1.Triple
             // function assigned to variable triple takes one int parameter and returns an int 
             // lambda expression (executable code without a method name) returns whatever int value is passed in times 3
 
-            // 1. the variable triple is assigned to a lambda expression 
+            // The variable triple is assigned to a lambda expression function 
             Func<int, int> triple = x => x * 3;
             var a = triple(4); // 12
 
-            // passing the function around creating more concise code
+            // Passing the function around creating more concise code
             // and higher level of abstraction
-            var g = Enumerable.Range(1, 100)
-                .Select(x => triple(x));
+            var b = Enumerable.Range(1, 100)
+                .Select(x => triple(x)); // 3, 6, 9..
 
-            // more verbose putting the lambda expression inline
-            var h = Enumerable.Range(1, 100)
-                .Select(x => x * 3);
+            // 2. Avoid State Mutation
+            // Create and populate an array
+            int[] nums = { 1, 2, 3 };
+            // Updates the first value of the array
+            nums[0] = 7;
+            var c = nums; // => [7, 2, 3]
+
+            // Function (predicate signature) accepts an int and returns a bool
+            Func<int, bool> isOdd = x => x % 2 == 1;
+            var d = isOdd(3); // true
+
+            int[] original = {7, 6, 1};
+            var sorted = original.OrderBy(x => x); // [1, 6, 7]
+            var filtered = original.Where(isOdd); // [7, 1]
+            var e = original; // [7, 6, 1]
+
+
         }
-    }
-
-    public class AgeTests
-    {
-        //[TestCase(x20, ExpectedResult = Risk.Low)]
-        //[TestCase(70, ExpectedResult = Risk.Medium)]
-        //public Risk CalculateRiskProfile_Simple(Age number)
-        //{
-        //    var result = AgeThing.CalculateRiskProfile(number);
-        //    return result;
-
-        //    [Test]
-        //    public void CalculateRiskProfile_SimpleMedium()
-        //    {
-        //        var result = AgeThing.CalculateRiskProfile(new Age(60));
-        //        Assert.AreEqual(Risk.Medium, result);
-        //    }
     }
 }
