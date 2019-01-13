@@ -32,7 +32,7 @@ namespace ConsoleApp1.Chapter1.Triple
             Func<int, bool> isOdd = x => x % 2 == 1;
             var d = isOdd(3); // true
 
-            int[] original = {7, 6, 1};
+            int[] original = { 7, 6, 1 };
             var sorted = original.OrderBy(x => x); // [1, 6, 7]
             var filtered = original.Where(isOdd); // [7, 1]
             var e = original; // [7, 6, 1]
