@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using static System.Console;
+using static System.Linq.Enumerable;
 
 namespace ConsoleApp1.Chapter2.ListFormatter
 {
-    public static class ListFomatterRun
+    using static System.Console;
+    using static System.Linq.Enumerable;
+
+    public static class Thing
     {
         public static void Run()
         {
@@ -15,52 +18,51 @@ namespace ConsoleApp1.Chapter2.ListFormatter
             // Method group - same as writing x => WriteLine(x)
             output.ForEach(WriteLine);
 
-            var b = ListFormatter2.Format(input);
-            b.ForEach(WriteLine);
-
-            var c = ListFormatter3.Format(input);
-            c.ForEach(WriteLine);
+            ListFormatter2.Format(input).ForEach(WriteLine);
+            ListFormatter3.Format(input).ForEach(WriteLine);
         }
     }
 
-    // try 3 - no shared state, so easy to parallelise
+    // Try 3 - no shared state, so easy to parallelise
     static class ListFormatter3
     {
         public static List<string> Format(List<string> list) =>
             list.AsParallel()
-                .Select(StringExt.ToSentenceCase) // Method group
+                .Select(StringExt.ToSentenceCase) 
                 .Zip(ParallelEnumerable.Range(1, list.Count), (s, i) => $"{i}. {s}") // s is string, i is int
                 .ToList();
     }
 
-    // try 2 - pure function as not using a mutable counter
+    // Try 2 - pure function as not using a mutable counter
     static class ListFormatter2
     {
         // when all variables required within a method are provided as input the method can be static
         public static List<string> Format(List<string> list) =>
             list
                 .Select(StringExt.ToSentenceCase) // Method group
-                .Zip(Enumerable.Range(1, list.Count), (s, i) => $"{i}. {s}") // s is string, i is int
+                .Zip(Range(1, list.Count), resultSelector: (s, i) => $"{i}. {s}") // s is string, i is int
                 .ToList();
     }
 
-    // try 1
+    // Try 1
     class ListFormatter
     {
         int counter;
 
-        // impure function - mutates global state
-        string PrependCounter(string s) => $"{++counter}. {s}";
+        // Impure function - mutates global state
+        private string PrependCounter(string s)
+        {
+            return $"{++counter}. {s}";
+        }
 
-        // pure and impure functions applied similarly
+        // Pure and impure functions applied similarly
         // Expression body syntax C#6
         public List<string> Format(List<string> list)
             => list
-                .Select(StringExt.ToSentenceCase) // pure
-                .Select(PrependCounter) // impure as mutating global state
+                .Select(StringExt.ToSentenceCase) // Pure (Method Group)
+                .Select(PrependCounter) // Impure as mutating global state
                 .ToList();
     }
-
     public static class StringExt
     {
         // Pure function (no side effects)
@@ -75,7 +77,7 @@ namespace ConsoleApp1.Chapter2.ListFormatter
         public void ItWorksOnSingletonList()
         {
             var input = new List<string> { "coffee beans" };
-            var output = new ListFormatter().Format(input);
+            var output =  ListFormatter3.Format(input);
             Assert.AreEqual("1. Coffee beans", output[0]);
         }
 
@@ -83,7 +85,7 @@ namespace ConsoleApp1.Chapter2.ListFormatter
         public void ItWorksOnLongerList()
         {
             var input = new List<string> { "coffee beans", "BANANAS" };
-            var output = new ListFormatter().Format(input);
+            var output = ListFormatter3.Format(input);
             Assert.AreEqual("1. Coffee beans", output[0]);
             Assert.AreEqual("2. Bananas", output[1]);
         }
@@ -92,8 +94,8 @@ namespace ConsoleApp1.Chapter2.ListFormatter
         public void ItWorksOnAVeryLongList()
         {
             var size = 100000;
-            var input = Enumerable.Range(1, size).Select(i => $"item{i}").ToList();
-            var output = new ListFormatter().Format(input);
+            var input = Range(1, size).Select(i => $"item{i}").ToList();
+            var output = ListFormatter3.Format(input);
             Assert.AreEqual("100000. Item100000", output[size - 1]);
         }
     }
