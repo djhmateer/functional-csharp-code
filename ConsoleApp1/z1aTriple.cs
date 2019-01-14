@@ -36,8 +36,6 @@ namespace ConsoleApp1.Chapter1.Triple
             var sorted = original.OrderBy(x => x); // [1, 6, 7]
             var filtered = original.Where(isOdd); // [7, 1]
             var e = original; // [7, 6, 1]
-
-
         }
     }
 }
