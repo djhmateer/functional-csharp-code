@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 
 namespace ConsoleApp1.Chapter1.DB
 {
-
     using static ConnectionHelper; // C#6 - import static members of this type
-    //using static F; // Beginnings of functional library used in ConnectionHelper_V2
+    //using static ConnectionHelper_V2; // C#6 - import static members of this type
+    using static F; // Beginnings of functional library used in ConnectionHelper_V2
+
     public static class DBThing
     {
         public static void Run()
@@ -28,15 +30,16 @@ namespace ConsoleApp1.Chapter1.DB
     {
         string connString = "Server=(localdb)\\mssqllocaldb;Database=FP;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-        public int Log(string message)
-            => Connect(connString,
-                c => c.Query<int> ("Insert into Logs(message) values (@message); SELECT CAST(SCOPE_IDENTITY() as int)", 
-                new { message })
-                .Single());
+        // DBLogger doesn't need to know about Creating, Opening or Disposing of the connection
+        public int Log(string message) =>
+            Connect(connString,
+                c => c.Query<int>("Insert into Logs(message) values (@message); SELECT CAST(SCOPE_IDENTITY() as int)",
+                        new {message})
+                    .Single());
 
         public IEnumerable<LogMessage> GetLogs(DateTime since)
-            => Connect(connString, 
-                c => c.Query<LogMessage> ("SELECT * FROM [Logs] WHERE [Timestamp] > @since", new { since }));
+            => Connect(connString,
+                c => c.Query<LogMessage>("SELECT * FROM [Logs] WHERE [Timestamp] > @since", new { since }));
     }
 
     // 1. Classic way of doing data access
@@ -62,9 +65,9 @@ namespace ConsoleApp1.Chapter1.DB
     //    }
     //}
 
-    // HOF - accepts function as an input
     public static class ConnectionHelper
     {
+        // HOF - accepts function as an input
         // Generic method returning a generic object R
         // R is an IEnumerable<LogMessage> when calling GetLogs
         // R is int when calling Log
@@ -80,6 +83,26 @@ namespace ConsoleApp1.Chapter1.DB
         }
     }
 
+    // Refactored into simpler functions
+    public static class ConnectionHelper_V2
+    {
+        // Using here is an expression (expressions return values)
+        // more compact expression body syntax now we are using Using
+        public static R Connect<R>(string connString, Func<IDbConnection, R> func)
+            => Using(new SqlConnection(connString), conn => { conn.Open(); return func(conn); });
+    }
+
+    // start of a functional library
+    public static class F
+    {
+        // takes 2 arguments 
+        // 1 - a disposable resource
+        // 2 - a function to be executed before the resource is disposed
+        public static R Using<TDisp, R>(TDisp disposable, Func<TDisp, R> f) where TDisp : IDisposable
+        {
+            using (disposable) return f(disposable);
+        }
+    }
 
 
     public class LogMessage

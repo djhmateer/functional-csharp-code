@@ -6,7 +6,9 @@
         {
             //Chapter1.Triple.TripleThing.Run();
             //Chapter1.HOF.HOFThing.Run();
-            Chapter1.DB.DBThing.Run();
+            //Chapter1.DB.DBThing.Run();
+            Chapter1.Pred.PredThing.Run();
+
             //Chapter2.ListFormatter.ListFomatterRun.Run();
             // see Exercises for example I've worked through
             //Chapter2.Bmi.Bmi.Run();

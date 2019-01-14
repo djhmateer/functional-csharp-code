@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using static System.Console;
+using static System.Linq.Enumerable;
 
 namespace ConsoleApp1.Chapter1.Triple
 {
@@ -7,7 +9,7 @@ namespace ConsoleApp1.Chapter1.Triple
     {
         public static void Run()
         {
-            Console.WriteLine("hello z1triple!");
+            WriteLine("hello z1triple!");
             // 1. Functions as first class values
             // function assigned to variable triple takes one int parameter and returns an int 
             // lambda expression (executable code without a method name) returns whatever int value is passed in times 3
@@ -18,8 +20,8 @@ namespace ConsoleApp1.Chapter1.Triple
 
             // Passing the function around creating more concise code
             // and higher level of abstraction
-            var b = Enumerable.Range(1, 100)
-                .Select(x => triple(x)); // 3, 6, 9..
+            var b = Range(1, 100)
+                    .Select(x => triple(x)); // 3, 6, 9..
 
             // 2. Avoid State Mutation
             // Create and populate an array
