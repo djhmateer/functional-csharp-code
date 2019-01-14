@@ -1,18 +1,17 @@
 ﻿using System;
 using NUnit.Framework;
+using static System.Console;
 
 namespace ConsoleApp1.Chapter3.Ageb
 {
-    // data object / custom type / anemic objects that can only represent a valid value for an age
-    // structs are value types - he uses a struct here
-    // classes are reference types
+    // Data object / custom type / anemic objects that can only represent a valid value for an age
     public class Age
     {
         private int Value { get; }
         public Age(int value)
         {
             if (!IsValid(value))
-                // Age can only be instantiated with a valid value
+                // Age can only be instantiated with a valid value - but Dishonest (can not return Age as it can throw)
                 throw new ArgumentException($"{value} is not a valid age"); // see below for Option improvement
 
             Value = value;
@@ -37,16 +36,16 @@ namespace ConsoleApp1.Chapter3.Ageb
     {
         public static void Run()
         {
-            Console.WriteLine("hello!");
+            WriteLine("hello!");
             var result = CalculateRiskProfile(new Age(20));
         }
 
-        // honest function - it honours its signature ie you will always end up with a Risk
+        // Honest function - it honours its signature ie you will always end up with a Risk
         // it will never blow up with a runtime error as Age has to be valid
         public static Risk CalculateRiskProfile(Age age)
             => (age < 60) ? Risk.Low : Risk.Medium;
 
-        // dishonest function - it will not always abide by its signatured
+        // Dishonest function - it will not always abide by its signatured
         // ie will sometimes throw an exception
         public static Risk CalculateRiskProfileDishonest(int age)
         {

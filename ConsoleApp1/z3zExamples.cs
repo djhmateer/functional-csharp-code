@@ -5,7 +5,7 @@ using LaYumba.Functional;
 //using Enum = System.Enum;
 using Enum = LaYumba.Functional.Enum;
 
-namespace ConsoleApp1.Chapter3.ZExamples
+namespace ConsoleApp1.Chapter3.G
 {
     using static F;
     public static class ExamplesThing

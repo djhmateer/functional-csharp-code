@@ -3,7 +3,7 @@ using NUnit.Framework;
 using static System.Math;
 using static System.Console;
 
-namespace ConsoleApp1.Chapter3.Age
+namespace ConsoleApp1.Chapter3.A
 {
     // data object / custom type that can only represent a valid value for an age
     public class Age
@@ -33,8 +33,8 @@ namespace ConsoleApp1.Chapter3.Age
     {
         public static void Run()
         {
-            Console.WriteLine("hello!");
-            var result = AgeThing.CalculateRiskProfile(new Age(20));
+            WriteLine("hello!");
+            var result = CalculateRiskProfile(new Age(20));
         }
 
         public static Risk CalculateRiskProfile(Age age)

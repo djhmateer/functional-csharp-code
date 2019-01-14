@@ -10,16 +10,14 @@
             //Chapter1.Pred.PredThing.Run();
 
             //Chapter2.ListFormatter.Thing.Run();
-            Chapter2.B.Bmi.Run();
+            //Chapter2.B.Bmi.Run();
 
-            // see Exercises for example I've worked through
-            //Chapter2.Bmi.Bmi.Run();
-            //Chapter2.Prime.Prime.Run();
-            //Chapter3.Age.AgeThing.Run();
-            //Chapter3.Instrumentation.InstrumentationThing.Run();
-            //Chapter3.Options.OptionThing.Run();
-            //Chapter3.OptionsAge.AgeThing.Run();
-            //Chapter3.ZExamples.ExamplesThing.Run();
+            //Chapter3.A.AgeThing.Run();
+            //Chapter3.C.InstrumentationThing.Run();
+
+            //Chapter3.D.OptionThing.Run();
+            //Chapter3.E.AgeThing.Run();
+            Chapter3.G.ExamplesThing.Run();
         }
     }
 }

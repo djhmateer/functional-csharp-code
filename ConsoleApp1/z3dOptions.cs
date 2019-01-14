@@ -1,7 +1,7 @@
 ﻿using System;
 using LaYumba.Functional;
 
-namespace ConsoleApp1.Chapter3.Options
+namespace ConsoleApp1.Chapter3.D
 {
     using static LaYumba.Functional.F;
     public static class OptionThing

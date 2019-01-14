@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using static ConsoleApp1.Chapter3.Instrumentation.F;
+using static ConsoleApp1.Chapter3.C.F;
 using Unit = System.ValueTuple; // empty tuple can only have 1 possible value,  so its as good as no value
 
-namespace ConsoleApp1.Chapter3.Instrumentation
+namespace ConsoleApp1.Chapter3.C
 {
     public static class Instrumentation
     {
@@ -36,7 +36,7 @@ namespace ConsoleApp1.Chapter3.Instrumentation
         //}
     }
 
-    // write an adapter function to modify existing function to convert an Action into a Func<Unit>
+    // Write an adapter function to modify existing function to convert an Action into a Func<Unit>
     public static class F
     {
         // convenience method that allows you to write return Unit() in functions that return Unit.
@@ -45,7 +45,7 @@ namespace ConsoleApp1.Chapter3.Instrumentation
 
     public static class ActionExt
     {
-        // extension method on Action that returns Func<Unit>
+        // Extension method on Action that returns Func<Unit>
         public static Func<Unit> ToFunc(this Action action)
         {
             // local function
@@ -101,23 +101,5 @@ namespace ConsoleApp1.Chapter3.Instrumentation
             // uses adapter function .ToFunc() to return a ValueTuple (Unit)
             Instrumentation.Time("writing to file.txt", write.ToFunc());
         }
-    }
-
-
-
-    public class AgeTests
-    {
-        //    [Test]
-        //    public void CalculateRiskProfile_Simple()
-        //    {
-        //        var result = AgeThing.CalculateRiskProfile(new Age(20));
-        //        Assert.AreEqual(Risk.Low, result);
-        //    }
-        //    [Test]
-        //    public void CalculateRiskProfile_SimpleMedium()
-        //    {
-        //        var result = AgeThing.CalculateRiskProfile(new Age(60));
-        //        Assert.AreEqual(Risk.Medium, result);
-        //    }
     }
 }

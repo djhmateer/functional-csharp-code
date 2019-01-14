@@ -2,17 +2,17 @@
 using LaYumba.Functional;
 using NUnit.Framework;
 
-namespace ConsoleApp1.Chapter3.OptionsAge
+namespace ConsoleApp1.Chapter3.E
 {
     using static F;
-    // data object / custom type / anemic objects that can only represent a valid value for an age
+    // Data object / custom type / anemic objects that can only represent a valid value for an age
     // structs are value types - he uses a struct here
     // classes are reference types
     public class Age
     {
         private int Value { get; }
 
-        // smart constructor
+        // Smart constructor
         public static Option<Age> Of(int age)
             => IsValid(age) ? Some(new Age(age)) : None;
         // private ctor
@@ -52,9 +52,10 @@ namespace ConsoleApp1.Chapter3.OptionsAge
             // regular variable pointing to a function
             // taking a string and returning an Option<Age>
             // using Bind!!!
+            // Method Group
             Func<string, Option<Age>> parseAge = s => Int.Parse(s).Bind(Age.Of);
 
-            var a = parseAge("26"); // => Some(26)
+            Option<Age> a = parseAge("26"); // => Some(26)
 
             // how to work with Option<Age>?
             // Match is easiest
