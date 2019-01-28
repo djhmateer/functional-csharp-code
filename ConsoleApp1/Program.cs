@@ -17,7 +17,11 @@
 
             //Chapter3.D.OptionThing.Run();
             //Chapter3.E.AgeThing.Run();
-            Chapter3.G.ExamplesThing.Run();
+            //Chapter3.G.ExamplesThing.Run();
+
+            //Chapter4.A.Examples.Run();
+            //Chapter4.B.AskForValidAgeAndPrintFlatteringMessage.Run();
+            Chapter4.C.PetsInNeighbourhood.Run();
         }
     }
 }
