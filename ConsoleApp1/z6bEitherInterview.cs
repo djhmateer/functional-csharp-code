@@ -15,7 +15,6 @@ namespace ConsoleApp1.Chapter6.B
             Option<Age> a = parseAge("26"); // => Some(26)
 
             // make parseAge return an Either
-
             var b = ParseIntVerbose("26"); // Right(26)
             var c = ParseIntVerbose("asdf"); // Left('asdf' is not a valid representation of an int)
         }
