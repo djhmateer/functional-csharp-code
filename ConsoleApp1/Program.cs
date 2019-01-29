@@ -23,7 +23,12 @@
             //Chapter4.B.AskForValidAgeAndPrintFlatteringMessage.Run();
             //Chapter4.C.PetsInNeighbourhood.Run();
             //Chapter4.D.PetsInNeighbourhood.Run();
-            Chapter4.E.PetsInNeighbourhood.Run();
+            //Chapter4.E.PetsInNeighbourhood.Run();
+
+            //Chapter5.A.Thing.Run();
+
+            //Chapter6.A.Thing.Run();
+            Chapter6.B.Thing.Run();
         }
     }
 }
