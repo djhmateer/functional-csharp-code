@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HtmlAgilityPack;
 using LaYumba.Functional;
 
 namespace ConsoleApp1.Chapter4.E
@@ -19,6 +20,25 @@ namespace ConsoleApp1.Chapter4.E
             var a = GetWorkPermit(employees, "dave");
 
             var b = GetValidWorkPermit(employees, "dave");
+
+            // Bind 2 Options
+            var url = "http://microsoft.com";
+            //Option<string> c = Some($@"<a href=""{url}""></a>");
+            Option<string> c = None;
+
+            var f = c.Bind(x => GetHrefs(x));
+        }
+
+        public static List<string> GetHrefs(string html)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            var hyperlinks = doc.DocumentNode.Descendants("a")
+                .Select(a => a.GetAttributeValue("href", null))
+                .Where(u => !string.IsNullOrEmpty(u))
+                .Distinct()
+                .ToList();
+            return hyperlinks;
         }
 
         static Option<WorkPermit> GetWorkPermit(Dictionary<string, Employee> employees, string employeeId)
