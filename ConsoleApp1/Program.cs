@@ -28,7 +28,8 @@
             //Chapter5.A.Thing.Run();
 
             //Chapter6.A.Thing.Run();
-            Chapter6.B.Thing.Run();
+            //Chapter6.B.Thing.Run();
+            Chapter6.C.Thing.Run();
         }
     }
 }
