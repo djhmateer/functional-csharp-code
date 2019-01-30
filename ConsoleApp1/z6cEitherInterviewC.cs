@@ -12,7 +12,7 @@ namespace ConsoleApp1.Chapter6.C
         {
             var dave = new Candidate { Name = "Dave" };
             Either<Rejection, Candidate> result = InterviewEither.FirstRound(dave);
-            var output = GetMessage(result);
+            var output = GetMessage(result); // Success Dave!
 
             string GetMessage(Either<Rejection, Candidate> res) =>
                 res.Match(
@@ -22,7 +22,7 @@ namespace ConsoleApp1.Chapter6.C
 
             var bob = new Candidate { Name = "Bob" };
             var result2 = InterviewEither.FirstRound(bob);
-            var output2 = GetMessage(result2);
+            var output2 = GetMessage(result2); // Rejected due to Bob always fails interviews
         }
     }
     
