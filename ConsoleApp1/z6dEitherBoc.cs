@@ -4,6 +4,7 @@ using static System.Math;
 
 namespace ConsoleApp1.Chapter6.D
 {
+    // see AWebApplication2 - BookTransferController
     using static F;
 
     static class Thing
@@ -12,21 +13,6 @@ namespace ConsoleApp1.Chapter6.D
         {
             Console.WriteLine("6d");
         }
-    }
-
-    public class Chapter6_BookTransferController : Controller
-    {
-        [HttpPost, Route("api/Chapters6/transfers/future/restful")]
-        public IActionResult BookTransfer_v1([FromBody] BookTransfer request)
-            => Handle(request).Match<IActionResult>(
-                Right: _ => Ok(),
-                Left: BadRequest);
-
-        [HttpPost, Route("api/Chapters6/transfers/future/resultDto")]
-        public ResultDto<ValueTuple> BookTransfer_v2([FromBody] BookTransfer request)
-            => Handle(request).ToResult();
-
-        Either<LaYumba.Functional.Error, ValueTuple> Handle(BookTransfer request) { throw new NotImplementedException(); }
     }
 
     // Errors which are 'business as usual' not Exceptional
