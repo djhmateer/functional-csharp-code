@@ -12,28 +12,50 @@ namespace AWebApplication2.Controllers
     [ApiController]
     public class BookTransferController : Controller
     {
-        // Get to test Errors
+        // Testing Validation Errors (not Exceptions)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Index()
         {
             var a = new InvalidBicError();
 
-            // shortcut for above using static Errors factory
+            // Shortcut for above using static Errors factory (normal way to make an Error)
             var b = Errors.InvalidBic;
 
-            // A generic error
+            // A generic error (Unusual)
             var c = new Error("test error");
             // shortcut for above
             var d = D.Error("test error");
             // can't do this as the ctor is Protected
             //var e = new Error();
 
-            // Generic error 
+            // Generic error  (Unusual)
             // implicitly converting string into an Error
             Error i = "test error";
 
             return new string[] { "dave", "bob", a.ToString(), i.ToString() };
         }
+
+        [HttpGet, Route("test")]
+        public IActionResult Test()
+        {
+            //return Ok();
+            return BadRequest(); // Bad Request 400 to Chrome, 405 to Curl? 
+        }
+
+        public class Thing
+        {
+            public string Name { get; set; }
+        }
+
+        [HttpPost, Route("test2")]
+        public IActionResult Test2([FromBody] Thing thing)
+        //public IActionResult Test2()
+        {
+            return Ok();
+            //return name + " ok!";
+            //return BadRequest(); // Bad Request 400 to Chrome, 405 to Curl? 
+        }
+
 
         // Client explicitly requests a transfer to be carried out on some future date
         // client sends to the API a BookTransfer request in json via POST
