@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using LaYumba.Functional;
-//using static LaYumba.Functional.F;
-using Unit = System.ValueTuple; // empty tuple can only have 1 possible value,  so its as good as no value
+using Unit = System.ValueTuple; // empty tuple can only have 1 possible value,  so it's as good as no value
 
 namespace AWebApplication2.Controllers
 {
@@ -13,6 +12,8 @@ namespace AWebApplication2.Controllers
     public class BookTransferController : Controller
     {
         // Testing Validation Errors (not Exceptions)
+        // curl -i http://localhost:55064/api/booktransfer 
+        // Returns a 200 
         [HttpGet]
         public ActionResult<IEnumerable<string>> Index()
         {
@@ -32,40 +33,41 @@ namespace AWebApplication2.Controllers
             // implicitly converting string into an Error
             Error i = "test error";
 
-            return new string[] { "dave", "bob", a.ToString(), i.ToString() };
+            return new[] { "dave", "bob", a.ToString(), i.ToString() };
         }
 
+        // curl -i http://localhost:55064/api/booktransfer/test 
+        // Returns a 400 Bad Request
         [HttpGet, Route("test")]
         public IActionResult Test()
         {
             //return Ok();
-            return BadRequest(); // Bad Request 400 to Chrome, 405 to Curl? 
+            return BadRequest();
         }
 
-        public class Thing
-        {
-            public string Name { get; set; }
-        }
+        public class ThingDto { public string Name { get; set; } }
 
+
+        // curl -i --header "Content-Type: application/json" -d "{\"Name\":\"Dave\"}" http://localhost:55064/api/booktransfer/test2
+        // Using a string here didn't work - had to encapsulate in this ThingDto.
+        // Returns a 200
         [HttpPost, Route("test2")]
-        public IActionResult Test2([FromBody] Thing thing)
-        //public IActionResult Test2()
+        public IActionResult Test2([FromBody] ThingDto thing)
         {
-            return Ok();
-            //return name + " ok!";
-            //return BadRequest(); // Bad Request 400 to Chrome, 405 to Curl? 
+            return Ok($"received: {thing.Name}");
         }
 
 
+        // curl -i --header "Content-Type: application/json" -d "{\"Bic\":\"ABCDEFGHIJL\", \"Date\":\"2019-03-03\"}" http://localhost:55064/api/booktransfer/restful
         // Client explicitly requests a transfer to be carried out on some future date
         // client sends to the API a BookTransfer request in json via POST
-        [HttpPost, Route("api/Chapters6/transfers/future/restful")]
+        [HttpPost, Route("restful")]
         public IActionResult BookTransfer_v1([FromBody] BookTransfer request)
             => Handle(request)
-            // Translate elevate types down to normal (leave the abstraction)
-            // and handle
-            // This is an outer layer adapter from the core (where we use the abstraction) 
-            // to the outside world
+                // Translate elevate types down to normal (leave the abstraction)
+                // and handle
+                // This is an outer layer adapter from the core (where we use the abstraction) 
+                // to the outside world
                 .Match<IActionResult>(
                 Right: _ => Ok(),
                 Left: BadRequest);
@@ -85,7 +87,10 @@ namespace AWebApplication2.Controllers
         Regex bicRegex = new Regex("[A-Z]{11}");
         Either<Error, BookTransfer> ValidateBic(BookTransfer request)
         {
-            // not pure as relying on external field
+            // if request.Bic is null this throws a null ref exception!
+            // which is Exceptional and not normal control flow
+
+            // not pure as relying on external field (bicRegex)
             if (!bicRegex.IsMatch(request.Bic))
                 return Errors.InvalidBic;
             return request;
@@ -100,8 +105,12 @@ namespace AWebApplication2.Controllers
             return request;
         }
 
-        Either<Error, ValueTuple> Save(BookTransfer request)
-        { throw new NotImplementedException(); }
+        Either<Error, Unit> Save(BookTransfer request)
+        {
+            //throw new NotImplementedException();
+            // Pretend it has been implement and has been successful
+            return F.Unit();
+        }
     }
 
     //
