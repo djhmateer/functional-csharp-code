@@ -70,8 +70,9 @@ namespace AWebApplication2.Controllers
                 // to the outside world
                 .Match<IActionResult>(
                 Right: _ => Ok(),
-                Left: BadRequest);
+                Left: error => BadRequest(error)); // BadRequest from MVC framework takes an error object to return
 
+        // curl -i --header "Content-Type: application/json" -d "{\"Bic\":\"ABCDEFGHIJL\", \"Date\":\"2019-03-03\"}" http://localhost:55064/api/booktransfer/resultDto
         [HttpPost, Route("resultDto")]
         public ResultDto<ValueTuple> BookTransfer_v2([FromBody] BookTransfer request)
             => Handle(request).ToResult();
@@ -112,9 +113,9 @@ namespace AWebApplication2.Controllers
         Either<Error, Unit> Save(BookTransfer request)
         {
             //throw new NotImplementedException();
-            return Errors.SaveProblem;
+            //return Errors.SaveProblem;
             // Pretend it has been implemented and has been successful
-            //return F.Unit();
+            return F.Unit();
         }
     }
 

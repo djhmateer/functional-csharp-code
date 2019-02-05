@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using LaYumba.Functional;
@@ -18,7 +17,7 @@ namespace AWebApplication2.ControllersP
         [HttpPost, Route("part")]
         public IActionResult MakeFutureTransfer([FromBody] BookTransfer request)
             => Handle(request).Match( // Unwraps value inside Validation
-                Invalid: BadRequest, // If validation failed should send back a 400
+                Invalid: BadRequest, // If validation failed should send back a 400 with Validation fail Message   
                 Valid: result => result.Match( // Unwraps value inside Exceptional
                     Exception: OnFaulted, // If persistence failed send a 500
                     Success: _ => Ok()));
