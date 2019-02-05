@@ -72,6 +72,10 @@ namespace AWebApplication2.Controllers
                 Right: _ => Ok(),
                 Left: BadRequest);
 
+        [HttpPost, Route("resultDto")]
+        public ResultDto<ValueTuple> BookTransfer_v2([FromBody] BookTransfer request)
+            => Handle(request).ToResult();
+
         // Handle defines the high level workflow
         // ie ValidateBic, ValidateDate, then Save
         Either<Error, Unit> Handle(BookTransfer request)
@@ -108,9 +112,32 @@ namespace AWebApplication2.Controllers
         Either<Error, Unit> Save(BookTransfer request)
         {
             //throw new NotImplementedException();
-            // Pretend it has been implement and has been successful
-            return F.Unit();
+            return Errors.SaveProblem;
+            // Pretend it has been implemented and has been successful
+            //return F.Unit();
         }
+    }
+
+    public class ResultDto<T>
+    {
+        public bool Succeeded { get; }
+        public bool Failed => !Succeeded;
+
+        public T Data { get; }
+        public Error Error { get; }
+
+        internal ResultDto(T data) { Succeeded = true; Data = data; }
+        internal ResultDto(Error error) { Error = error; }
+    }
+
+    public static class EitherExt
+    {
+        // translate Either<Error, T> to a ResultDto for easy serialisation and access on client side
+        // @this is allowing us to declare a reserved keyword as a variable
+        public static ResultDto<T> ToResult<T>(this Either<Error, T> @this)
+            => @this.Match(
+                Right: data => new ResultDto<T>(data),
+                Left: error => new ResultDto<T>(error));
     }
 
     //
@@ -159,6 +186,10 @@ namespace AWebApplication2.Controllers
 
         public static TransferDateIsPastError TransferDateIsPast
            => new TransferDateIsPastError();
+
+        public static SaveProblemError SaveProblem
+                  => new SaveProblemError();
+
     }
 
     // Sealed so cannot be inherited
@@ -174,6 +205,12 @@ namespace AWebApplication2.Controllers
     {
         public override string Message { get; }
             = "Transfer date cannot be in the past";
+    }
+
+    public sealed class SaveProblemError : Error
+    {
+        public override string Message { get; }
+            = "Save problem";
     }
 
 
@@ -202,32 +239,6 @@ namespace AWebApplication2.Controllers
         // converting from string to Error
         public static implicit operator Error(string m) => new Error(m);
     }
-
-
-
-    //[HttpPost, Route("api/Chapters6/transfers/future/resultDto")]
-    //public ResultDto<ValueTuple> BookTransfer_v2([FromBody] BookTransfer request)
-    //    => Handle(request).ToResult();
-
-    //public class ResultDto<T>
-    //{
-    //    public bool Succeeded { get; }
-    //    public bool Failed => !Succeeded;
-
-    //    public T Data { get; }
-    //    public Error Error { get; }
-
-    //    internal ResultDto(T data) { Succeeded = true; Data = data; }
-    //    internal ResultDto(Error error) { Error = error; }
-    //}
-
-    //public static class EitherExt
-    //{
-    //    public static ResultDto<T> ToResult<T>(this Either<Error, T> @this)
-    //        => @this.Match(
-    //            Right: data => new ResultDto<T>(data),
-    //            Left: error => new ResultDto<T>(error));
-    //}
 
 
 }
